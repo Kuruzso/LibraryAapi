@@ -36,6 +36,13 @@ namespace LibraryApi.Controllers
 
             return Ok(book);
         }
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Book>>> GetAllBooks()
+        {
+            var books = await libraryContext.Books.ToListAsync();
+            return Ok(books);
+        }
+
 
     }
 }
