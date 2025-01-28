@@ -23,5 +23,19 @@ namespace LibraryApi.Controllers
             await libraryContext.SaveChangesAsync();
             return CreatedAtAction(nameof(GetBookById), new { id = book.Id }, book);
         }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Book>> GetBookById(int id)
+        {
+            var book = await libraryContext.Books.FindAsync(id);
+
+            if (book == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(book);
+        }
+
     }
 }
