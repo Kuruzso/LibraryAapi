@@ -37,11 +37,30 @@ namespace LibraryApi.Controllers
             return Ok(book);
         }
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Book>>> GetAllBooks()
+        public async Task<ActionResult<Book>> GetAllBooks()
         {
             var books = await libraryContext.Books.ToListAsync();
             return Ok(books);
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteBookById(int id)
+        {
+            var book = await libraryContext.Books.FindAsync(id);
+
+            if (book == null)
+            {
+                return NotFound();
+            }
+
+            libraryContext.Books.Remove(book);
+            await libraryContext.SaveChangesAsync();
+
+            return Ok();
+        }
+
+       
+
 
 
     }
