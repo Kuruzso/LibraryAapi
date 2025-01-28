@@ -59,7 +59,33 @@ namespace LibraryApi.Controllers
             return Ok();
         }
 
-       
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateBook(int id, Book updatedBook)
+        {
+            if (id != updatedBook.Id)
+            {
+                return BadRequest("Nincs ilyen könyv");
+            }
+
+            var existingBook = await libraryContext.Books.FindAsync(id);
+
+            if (existingBook == null)
+            {
+                return NotFound();
+            }
+
+           
+            existingBook.Title = updatedBook.Title;
+            existingBook.Author = updatedBook.Author;
+            existingBook.PublishedYear = updatedBook.PublishedYear;
+            existingBook.Genre = updatedBook.Genre;
+            existingBook.Price = updatedBook.Price;
+
+           
+            await libraryContext.SaveChangesAsync();
+
+            return NoContent();
+        }
 
 
 
